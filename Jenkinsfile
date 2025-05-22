@@ -3,9 +3,8 @@ pipeline {
 
     environment {
         GITHUB_REPO = 'https://github.com/suneel00/movie.git'
-        DOCKER_IMAGE = 'suneel00/movie'
+        DOCKER_IMAGE = 'suneel00/movie:${BUILD_NUMBER}'
         DOCKER_CREDENTIALS_ID = 'dockerhub-c'
-        IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
 
     stages {
@@ -18,7 +17,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    sh "docker build -t ${DOCKER_IMAGE}:${IMAGE_TAG} ."
+                    sh "docker build -t ${DOCKER_IMAGE} ."
                 }
             }
         }
@@ -29,7 +28,7 @@ pipeline {
                     script {
                         sh """
                             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                            docker push ${DOCKER_IMAGE}:${IMAGE_TAG}
+                            docker push ${DOCKER_IMAGE}
                         """
                     }
                 }
