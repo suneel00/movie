@@ -13,22 +13,25 @@ pipeline {
                 git credentialsId: 'github-c', branch: 'main', url: "${env.GITHUB_REPO}"
             }
         }
-
-        // stage('Build Docker Image') {
+        // stage('build and Push image to Docker Hub') {
         //     steps {
-        //         script {
-        //             sh "docker build -t ${DOCKER_IMAGE} ."
+        //         withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+        //             script {
+        //                 sh """
+        //                     docker build -t ${DOCKER_IMAGE} .
+        //                     echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
+        //                     docker push ${DOCKER_IMAGE}
+        //                 """
+        //             }
         //         }
         //     }
         // }
-
         stage('build and Push image to Docker Hub') {
             steps {
-                withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
+                withDockerRegistry(credentialsId:'DOCKER_PASS') {
                     script {
                         sh """
                             docker build -t ${DOCKER_IMAGE} .
-                            echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                             docker push ${DOCKER_IMAGE}
                         """
                     }
