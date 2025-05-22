@@ -3,7 +3,7 @@ pipeline {
 
     environment {
         GITHUB_REPO = 'https://github.com/suneel00/movie.git'
-        DOCKER_IMAGE = 'suneel0/movie'
+        DOCKER_IMAGE = 'suneel00/movie'
         DOCKER_CREDENTIALS_ID = 'dockerhub-c'
         IMAGE_TAG = "${env.BUILD_NUMBER}"
     }
