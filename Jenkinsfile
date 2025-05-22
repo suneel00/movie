@@ -5,7 +5,7 @@ pipeline {
         GITHUB_REPO = 'https://github.com/suneel00/movie.git'
         //DOCKER_IMAGE = 'suneel00/movie:${BUILD_NUMBER}'
         //DOCKER_CREDENTIALS_ID = 'dockerhub-c'
-        IMAGE_NAME = "movie"
+        IMAGE_NAME = "suneel00/movie"
         REGISTRY = "docker.io/suneel00"
         IMAGE_TAG = "${env.BUILD_NUMBER}"
 
