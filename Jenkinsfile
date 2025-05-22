@@ -14,19 +14,20 @@ pipeline {
             }
         }
 
-        stage('Build Docker Image') {
-            steps {
-                script {
-                    sh "docker build -t ${DOCKER_IMAGE} ."
-                }
-            }
-        }
+        // stage('Build Docker Image') {
+        //     steps {
+        //         script {
+        //             sh "docker build -t ${DOCKER_IMAGE} ."
+        //         }
+        //     }
+        // }
 
-        stage('Push to Docker Hub') {
+        stage('build and Push image to Docker Hub') {
             steps {
                 withCredentials([usernamePassword(credentialsId: "${DOCKER_CREDENTIALS_ID}", usernameVariable: 'DOCKER_USER', passwordVariable: 'DOCKER_PASS')]) {
                     script {
                         sh """
+                            docker build -t ${DOCKER_IMAGE} .
                             echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
                             docker push ${DOCKER_IMAGE}
                         """
